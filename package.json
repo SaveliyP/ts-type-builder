@@ -1,0 +1,40 @@
+{
+  "name": "type-builder",
+  "version": "1.0.0",
+  "description": "An extensible TypeScript type builder that produces a function to verify types",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "pretest": "tsc",
+    "test": "node dist/test.js",
+    "prepublish": "tsc"
+  },
+  "keywords": [
+    "typescript",
+    "type",
+    "schema",
+    "verify",
+    "check",
+    "checker",
+    "matcher",
+    "template"
+  ],
+  "author": "Saveliy P",
+  "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SaveliyP/ts-type-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SaveliyP/ts-type-builder/issues"
+  },
+  "homepage": "https://github.com/SaveliyP/ts-type-builder",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^14.0.14",
+    "typescript": "^3.9.5"
+  }
+}
