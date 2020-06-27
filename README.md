@@ -1,13 +1,15 @@
-# ts-type-builder
+# TypeScript type builder
 An extensible TypeScript type builder that produces a function to verify the type. Using an editor compatible with TypeScript will enable autocomplete with the correct types.
+
+Note: if the TypeScript ```strictNullChecks``` option is set to false, then every type will always be optional, even though the checker function will not allow ```null``` or ```undefined```. It is best to have the option set to true.
 
 ### Installation:
 
-```npm i ts-type-builder```
+```npm i type-builder```
 
 ### Example:
 ```typescript
-import { array, dict, num, optional, str } from 'ts-type-builder';
+import { array, dict, optional, str, union } from 'type-builder';
 
 const isUser1 = dict({
 	user_model_version: 1,
@@ -16,7 +18,7 @@ const isUser1 = dict({
 	website: optional(str),
 	
 });
-type User1 = typeof isUser1.Type;
+type User1 = typeof isUser1.type;
 
 const isUser2 = dict({
 	user_model_version: 2,
@@ -31,13 +33,13 @@ const isUser2 = dict({
 		})
 	)
 });
-type User2 = typeof isUser2.Type;
+type User2 = typeof isUser2.type;
 
 const isUser = union([isUser1, isUser2]);
-type User = typeof isUser.Type;
+type User = typeof isUser.type;
 
 var data = {
-	user_model_version 2,
+	user_model_version: 2,
 	username: "Alice",
 	password: "p@ssw0rd",
 	email: "alice@example.com",
@@ -64,6 +66,8 @@ if (!isUser(data)) {
 }
 ```
 
+![Type inferrence](screenshots/screenshot1.png)
+
 Expected output:
 
 ```
@@ -75,7 +79,7 @@ And TypeScript will correctly infer the type of ```data```.
 
 ### TypeChecker<T>
 
-This type represents a function that checks whether a passed argument is of type ```T```. Each of the types in the next section are or return a ```TypeChecker```. Additionally the type has a property ```TypeChecker<T>.Type``` whose type is ```T```, which can be used to get the type (i.e. by using ```typeof checker.Type```). This property does not actually exist on the type checkers.
+This type represents a function that checks whether a passed argument is of type ```T```. Each of the types in the next section are or return a ```TypeChecker```. Additionally the type has a property ```TypeChecker<T>.type``` whose type is ```T```, which can be used to get the type (i.e. by using ```typeof checker.type```). This property does not actually exist on the type checkers.
 
 ## Built-in types:
 
@@ -146,11 +150,11 @@ A custom ```TypeChecker``` is just a function that returns the type ```x is T```
 For example, code for a ```TypeChecker``` that verifies whether a string has a certain length could look like this:
 
 ```typescript
-import { TypeChecker, str } from 'ts-type-builder';
+import { TypeChecker, str } from 'type-builder';
 
 function stringRange(min: number, max: number): TypeChecker<string> {
     return <TypeChecker<string>> ((x: any): x is string => str(x) && x.length >= min && x.length <= max);
 }
 ```
 
-The cast to `TypeChecker<string>` is necessary to make sure a phantom property ```Type``` appears on the type of the returned value.
+The cast to `TypeChecker<string>` is necessary to make sure a phantom property ```type``` appears on the type of the returned value.
