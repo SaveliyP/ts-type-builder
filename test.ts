@@ -1,6 +1,12 @@
 import { strict as assert } from 'assert';
 import { array, bool, dict, intersection, literal, num, optional, str, strDict, union } from './index';
 
+function test0() {
+    assert(literal(8)(8), "test0_1");
+    assert(literal("test")("test"), "test0_2");
+    assert(!literal("test")("test2"), "test0_3");
+}
+
 function test1() {
     assert(num(5), "test1_1");
     assert(num(NaN), "test1_2");
@@ -141,6 +147,7 @@ function test7() {
     assert(!type([true, true, true, "literal1"]), "test7_7");
 }
 
+test0();
 test1();
 test2();
 test3();
